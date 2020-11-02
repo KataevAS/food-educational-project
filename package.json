@@ -1,0 +1,22 @@
+{
+  "name": "food",
+  "version": "1.0.0",
+  "description": "educational project",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KataevAS/food-educational-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KataevAS/food-educational-project/issues"
+  },
+  "homepage": "https://github.com/KataevAS/food-educational-project#readme",
+  "devDependencies": {
+    "json-server": "^0.16.2"
+  }
+}
