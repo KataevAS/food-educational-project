@@ -190,13 +190,6 @@ window.addEventListener('DOMContentLoaded', () => {
         return res.json();
     };
 
-    // getResource('http://localhost:3000/menu')
-    //     .then(data => {
-    //         data.forEach(({ img, altimg, title, descr, price }) => {
-    //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-    //         });
-    //     });
-
     axios.get('http://localhost:3000/menu')
         .then(data => {
             data.data.forEach(({ img, altimg, title, descr, price }) => {
@@ -246,11 +239,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
             const formData = new FormData(form);
-
-            // const object = {};
-            // formData.forEach((value, key) => {
-            //     object[key] = value;
-            // });
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
@@ -344,21 +332,23 @@ window.addEventListener('DOMContentLoaded', () => {
         dots.push(dot);
     }
 
-    function changeSliderNubmer(totalSliders, currentSlide) {
+    function tranformSliderNav(totalSliders, currentSlide, offset) {
+        slidesField.style.transform = `translateX(-${offset}px)`;
         total.textContent = getZero(totalSliders);
         current.textContent = getZero(currentSlide);
-    }
-
-    function changeSliderDot() {
         dots.forEach(dot => dot.style.opacity = '.5');
         dots[slideIndex - 1].style.opacity = 1;
     }
 
+    function deleteNotDigits(str) {
+        return +str.replace(/\D/g, '');
+    }
+
     next.addEventListener('click', () => {
-        if (offset == +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1)) {
+        if (offset == deleteNotDigits(sliderWidth) * (slides.length - 1)) {
             offset = 0;
         } else {
-            offset += +sliderWidth.slice(0, sliderWidth.length - 2);
+            offset += deleteNotDigits(sliderWidth);
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -369,18 +359,15 @@ window.addEventListener('DOMContentLoaded', () => {
             slideIndex++;
         }
 
-        changeSliderNubmer(slides.length, slideIndex);
-        changeSliderDot();
+        tranformSliderNav(slides.length, slideIndex, offset);
     });
 
     prev.addEventListener('click', () => {
         if (offset == 0) {
-            offset = +sliderWidth.slice(0, sliderWidth.length - 2) * (slides.length - 1);
+            offset = deleteNotDigits(sliderWidth) * (slides.length - 1);
         } else {
-            offset -= +sliderWidth.slice(0, sliderWidth.length - 2);
+            offset -= deleteNotDigits(sliderWidth);
         }
-
-        slidesField.style.transform = `translateX(-${offset}px)`;
 
         if (slideIndex == 1) {
             slideIndex = slides.length;
@@ -388,8 +375,7 @@ window.addEventListener('DOMContentLoaded', () => {
             slideIndex--;
         }
 
-        changeSliderNubmer(slides.length, slideIndex);
-        changeSliderDot();
+        tranformSliderNav(slides.length, slideIndex, offset);
     });
 
     dots.forEach(dot => {
@@ -397,12 +383,9 @@ window.addEventListener('DOMContentLoaded', () => {
             const slideTo = e.target.getAttribute('data-slide-to');
 
             slideIndex = slideTo;
-            offset = +sliderWidth.slice(0, sliderWidth.length - 2) * (slideTo - 1);
+            offset = deleteNotDigits(sliderWidth) * (slideTo - 1);
 
-            slidesField.style.transform = `translateX(-${offset}px)`;
-
-            changeSliderNubmer(slides.length, slideIndex);
-            changeSliderDot();
+            tranformSliderNav(slides.length, slideIndex, offset);
         });
     });
 
