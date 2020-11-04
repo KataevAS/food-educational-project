@@ -1,5 +1,6 @@
-function timer() {
-    const deadLine = '2020-11-11';
+import { getZero } from "../services/services";
+
+function timer(id, deadLine) {
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -15,10 +16,6 @@ function timer() {
             minutes,
             seconds
         };
-    }
-
-    function getZero(n) {
-        return n >= 0 && n < 10 ? `0${n}` : n;
     }
 
     function setClock(selector, endtime) {
@@ -45,7 +42,7 @@ function timer() {
         }
     }
 
-    setClock('.timer', deadLine);
+    setClock(id, deadLine);
 }
 
-module.exports = timer;
+export default timer;
